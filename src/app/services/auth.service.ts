@@ -60,20 +60,20 @@ export class AuthService {
                     this.uiManager.navigateTo('/produtos');
                 })
                 .catch(err => {
-                    console.log(err);
+                    this.uiManager.alert('Erro', err.code);
                 })
     } 
     
-    createUser(email: string, password: string) {
+    createUser(name: string, email: string, password: string) {
         this.firebaseAuth.auth
                 .createUserWithEmailAndPassword(email, password)
                 .then( res => {
                     this.userId = res.user.uid;
-                    this.firebase.collection('restaurants').doc(res.user.uid).set({email: email});
+                    this.firebase.collection('restaurants').doc(res.user.uid).set({name: name, email: email});
                     this.uiManager.navigateTo('/restaurante/editar');
                 })
                 .catch(err => {
-                    console.log(err)
+                    this.uiManager.alert('Erro', err.code);
                 })
     }
 }

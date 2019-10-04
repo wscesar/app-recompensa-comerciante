@@ -9,11 +9,11 @@
     <ion-row class="flex" style="min-height: 100%">
         <ion-col size-md="6" offset-md="3" style="display: flex; justify-content: space-between; flex-direction: column;">
                 
-            <form [formGroup]="form" >
+            <form [formGroup]="loginForm" *ngIf="authMode == 'login'">
 
                 <ion-item>
                     <ion-label position="floating">E-Mail</ion-label>
-                    <ion-input formControlName="email"></ion-input>
+                    <ion-input type="email" formControlName="email"></ion-input>
                 </ion-item>
             
                 <ion-item>
@@ -22,7 +22,33 @@
                     <ion-icon slot="end" [name]="icon" (click)='onTogglePassword()'></ion-icon>
                 </ion-item>
     
-                <ion-button (click)="onSubmit()" 
+                <ion-button (click)="onSignUp()" [disabled]="!loginForm.valid"
+                    type="button" expand="block">{{authMode}}</ion-button>
+    
+                <ion-button (click)="onChangeMode()" 
+                    type="button" expand="block" fill="clear">{{authMode02}}</ion-button>
+
+            </form>
+
+            <form [formGroup]="signUpForm" *ngIf="authMode != 'login'">
+    
+                <ion-item>
+                    <ion-label position="floating">Nome</ion-label>
+                    <ion-input formControlName="name"></ion-input>
+                </ion-item>
+                
+                <ion-item>
+                    <ion-label position="floating">E-Mail</ion-label>
+                    <ion-input type="email" formControlName="email"></ion-input>
+                </ion-item>
+            
+                <ion-item>
+                    <ion-label position="floating">Senha</ion-label>
+                    <ion-input [type]="inputType" formControlName="password"></ion-input>
+                    <ion-icon slot="end" [name]="icon" (click)='onTogglePassword()'></ion-icon>
+                </ion-item>
+    
+                <ion-button (click)="onSignUp()" [disabled]="!signUpForm.valid"
                     type="button" expand="block">{{authMode}}</ion-button>
     
                 <ion-button (click)="onChangeMode()" 
@@ -32,10 +58,12 @@
     
             <div class="alternate-login-methods">
                 <ion-button (click)="onFacebookLogin()" color="primary" style="line-height: 1; display: flex;">
+                    <ion-icon slot="start" name="logo-facebook"></ion-icon>
                     Entrar com Facebook
                 </ion-button>
     
                 <ion-button (click)="onGoogleLogin()" color="danger" style="line-height: 1; display: flex;">
+                    <ion-icon slot="start" name="logo-google"></ion-icon>
                     Entrar com Google
                 </ion-button>
             </div>

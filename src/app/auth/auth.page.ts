@@ -2,31 +2,56 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 
+
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.page.html',
 })
 export class AuthPage implements OnInit {
 
-    form: FormGroup;
+    loginForm: FormGroup;
+    signUpForm: FormGroup;
     icon = 'eye';
     authMode = 'login';
-    authMode02 = 'criar conta'
-    inputType = 'password'
+    authMode02 = 'criar conta';
+    inputType = 'password';
+    errorMessage: string;
 
-    constructor(private authService: AuthService) {}
+    constructor(
+        private authService: AuthService
+        ) {}
 
     ngOnInit() {
-        this.form = new FormGroup({
+        
+        this.loginForm = new FormGroup({
 
-            email: new FormControl('test@example.com', {
-                updateOn: 'blur',
-                validators: [Validators.required]
+            email: new FormControl('bbi@bbi.com', {
+                updateOn: 'change',
+                validators: [Validators.required, Validators.email]
             }),
 
-            password: new FormControl('1qazxsw2', {
-                updateOn: 'blur',
-                validators: [Validators.required]
+            password: new FormControl('comfoodbbi', {
+                updateOn: 'change',
+                validators: [Validators.required, Validators.minLength(8)]
+            })
+
+        });
+
+        this.signUpForm = new FormGroup({
+
+            name: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required, Validators.minLength(3)]
+            }),
+
+            email: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required, Validators.email]
+            }),
+
+            password: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required, Validators.minLength(8)]
             })
 
         });
@@ -65,18 +90,19 @@ export class AuthPage implements OnInit {
     }
 
     
-    onSubmit() {
-        if ( this.authMode === 'login' ) {
-            this.authService.loginWithEmail(
-                this.form.value.email,
-                this.form.value.password
-            );
-        } else {
-            this.authService.createUser(
-                this.form.value.email,
-                this.form.value.password
-            );
-        }
+    onLogin() {
+        this.authService.loginWithEmail(
+            this.loginForm.value.email,
+            this.loginForm.value.password
+        );
+    }
+
+    onSignUp() {
+        this.authService.createUser(
+            this.signUpForm.value.name,
+            this.signUpForm.value.email,
+            this.signUpForm.value.password
+        );
     }
 
 }
