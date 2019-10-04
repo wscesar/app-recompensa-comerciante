@@ -32,7 +32,7 @@ export class AuthService {
                 .then( res => {
                     console.log(res)
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/restaurantes');
+                    this.uiManager.navigateTo('/produtos');
                 })
                 .catch(err => {
                     console.log(err);
@@ -45,7 +45,7 @@ export class AuthService {
                 .then( res => {
                     console.log(res)
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/restaurantes');
+                    this.uiManager.navigateTo('/produtos');
                 })
                 .catch(err => {
                     console.log(err);
@@ -57,7 +57,7 @@ export class AuthService {
                 .signInWithEmailAndPassword(email, password)
                 .then( res => {
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/restaurantes');
+                    this.uiManager.navigateTo('/produtos');
                 })
                 .catch(err => {
                     console.log(err);

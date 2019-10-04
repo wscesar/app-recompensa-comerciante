@@ -24,10 +24,12 @@ export class ProductsPage implements OnInit {
         this.productService.getProducts(restaurantId).subscribe( products => {
             this.isLoading = false;
             this.products = products;
-            console.log(products);
         });
     }
 
+    onDeleteProduct(productId: string) {
+        this.productService.deleteProduct(productId)
+    }
 
 
 }

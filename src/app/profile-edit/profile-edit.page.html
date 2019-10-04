@@ -1,22 +1,22 @@
 <ion-header>
-        <ion-toolbar>
-            
-            <ion-buttons slot="start">
-                <ion-back-button defaultHref="/"></ion-back-button>
-            </ion-buttons>
-    
-            <ion-title>Perfil</ion-title>
-    
-            <ion-buttons slot="end">
-                <ion-menu-toggle>
-                    <ion-button>
-                        <ion-icon name="menu"></ion-icon>
-                    </ion-button>
-                </ion-menu-toggle>
-            </ion-buttons>
-    
-        </ion-toolbar>
-    </ion-header>
+    <ion-toolbar>
+        
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Perfil</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
 
 <ion-content class="ion-padding">
     <ion-row>
@@ -38,13 +38,9 @@
             </form>
         </ion-col>
 
-        <ion-col size="6" offset="3" size-md="4" offset-md="4"  *ngIf="image != null"
-            style="background: url(https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif) center no-repeat; background-size: 50px auto; min-width: 50px; min-height: 50px">
+        <ion-col size="6" offset="3" size-md="4" offset-md="4"  *ngIf="image != null">
             <ion-img [src]="image"></ion-img>
         </ion-col>
     </ion-row>
-
-    
-    
     
 </ion-content>

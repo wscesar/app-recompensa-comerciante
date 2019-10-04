@@ -1,41 +1,62 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Meus Produtos</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Produtos Cadastrados</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list *ngIf="products">
+    <ion-row>
+        <ion-col size-md="6" offset-md="3">
 
-        <ion-item-sliding *ngFor="let product of products">
-            
-            <ion-item detail [routerLink]="['/', 'produto', product.id]" >
-            
-                <ion-thumbnail class="ion-margin">
-                    <ion-img [src]="product.image"></ion-img>
-                </ion-thumbnail>
+            <div *ngIf="!products" class="ion-text-center">
+                <ion-spinner></ion-spinner>
+            </div>
+
+            <div *ngIf="products && products.length == 0" class="ion-text-center">
+                <ion-label >Voce não possui produtos cadastrados</ion-label>
+                <ion-button expand="block" routerLink="/cadastrar-produto">Cadastrar Produto</ion-button>
+            </div>
+
+            <ion-list *ngIf="products && products.length > 0">
+                    
+                <ion-item *ngFor="let product of products"></ion-item-sliding>
+                    <!-- detail [routerLink]="['/', 'produto', product.id]" -->
+                    <ion-thumbnail class="ion-margin">
+                        <ion-img [src]="product.image"></ion-img>
+                    </ion-thumbnail>
+        
+                    <ion-label>
+                        <h2>{{ product.title }}</h2>
+                        <p>Preço: {{ product.price }}</p>
+                    </ion-label>
+
+                    <ion-icon name="create" color="primary" slot="end" 
+                        [routerLink]="['/','editar-produto', product.id]">
+                    </ion-icon>
+                            
+                    <ion-icon name="trash" color="danger" slot="end" 
+                        (click)="onDeleteProduct(product.id)">
+                    </ion-icon>
+                    
+                </ion-item>
+                
+            </ion-list>  
+        </ion-col>
+    </ion-row>
     
-                <ion-label>
-                    <h2>{{ product.title }}</h2>
-                    <p>Preço: {{ product.price }}</p>
-                </ion-label>
-
-            </ion-item>
-                
-            <ion-item-options side="end">
-                
-                <ion-item-option>
-                    <ion-icon name="create"></ion-icon>
-                </ion-item-option>
-
-                <ion-item-option color="danger">
-                    <ion-icon name="trash"></ion-icon>
-                </ion-item-option>
-
-            </ion-item-options>
-
-        </ion-item-sliding>
-            
-    </ion-list>  
 
 </ion-content>

@@ -2,7 +2,7 @@
     <ion-toolbar>
         
         <ion-buttons slot="start">
-            <ion-back-button defaultHref="/"></ion-back-button>
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
         </ion-buttons>
 
         <ion-title>Cadastrar Produto</ion-title>
@@ -30,7 +30,7 @@
 
                 <ion-item class="ion-margin-bottom" *ngIf="image != null">
                     <ion-label position="floating">Preço</ion-label>
-                    <ion-input formControlName="price"></ion-input>
+                    <ion-input type="number" formControlName="price"></ion-input>
                 </ion-item>
 
                 <ion-button (click)="filePicker.click()" color="danger"

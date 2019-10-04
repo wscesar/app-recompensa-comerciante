@@ -26,7 +26,6 @@ export class ProfileEditPage implements OnInit {
         private authService: AuthService,
         private uiManager: UiManagerService,
         private storage: AngularFireStorage,
-        private uploadService: UploadService,
         private restaurantService: RestaurantService,
     ) {}
 
@@ -35,7 +34,6 @@ export class ProfileEditPage implements OnInit {
 
         let restaurantId =  this.authService.getUserId();
 
-        this.dataSubscription = 
         this.restaurantService
                 .getRestaurant(restaurantId)
                 .pipe(take(1))
@@ -50,13 +48,10 @@ export class ProfileEditPage implements OnInit {
     }
 
     uploadFile(event) {
-        // this.dataSubscription.unsubscribe();
-
         const file = event.target.files[0];
         const filePath = 'restaurants/'+this.authService.getUserId();
         const fileRef = this.storage.ref(filePath);
-
-
+        
         const task = this.storage.upload(filePath, file);
         // this.uploadPercent = task.percentageChanges();
         task.snapshotChanges()

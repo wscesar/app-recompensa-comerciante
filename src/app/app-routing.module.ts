@@ -7,13 +7,14 @@ const routes: Routes = [
     { path: 'login', loadChildren: './auth/auth.module#AuthPageModule' },
 
     { 
-        path: 'restaurantes',
+        path: 'cadastrar-produto',
         canActivate: [AuthGuard],
-        loadChildren: './restaurants/restaurants.module#RestaurantsPageModule'
+        loadChildren: './product-create/product-create.module#ProductCreatePageModule'
     },
 
+
     { 
-        path: 'cadastrar-produto',
+        path: 'editar-produto/:productId',
         canActivate: [AuthGuard],
         loadChildren: './product-create/product-create.module#ProductCreatePageModule'
     },

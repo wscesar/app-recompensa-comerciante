@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { finalize } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { Product } from '../model/product.model';
@@ -37,22 +37,32 @@ export class ProductCreatePage implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.setForm(null, null);
         this.productId =  this.route.snapshot.paramMap.get('productId');
         this.restaurantId = this.authService.getUserId();
+        console.log(this.productId)
 
+        this.productService
+                .getProduct(this.productId)
+                .pipe(take(1))
+                .subscribe(
+                    res => {
+                        this.image = res.image
+                        console.log(res.image)
+                        this.setForm(res.title, res.price);
+                    }
+                )
+    }
+
+    setForm( product: string, price: number ) {
         this.form = new FormGroup({
             
-            product: new FormControl(null, {
+            product: new FormControl(product, {
                 updateOn: 'blur',
                 validators: [Validators.required]
             }),
 
-            // image: new FormControl(null, {
-            //     updateOn: 'blur',
-            //     validators: [Validators.required]
-            // }),
-
-            price: new FormControl(null, {
+            price: new FormControl(price, {
                 updateOn: 'blur',
                 validators: [Validators.required]
             }),
@@ -60,26 +70,36 @@ export class ProductCreatePage implements OnInit {
         });
     }
 
-    
     onSubmit() {
 
         this.uiManager.showLoading();
 
-        const newProduct = new Product (
+        const productData = new Product (
             this.form.value.product,
             +this.form.value.price,
             this.image,
             this.restaurantId
         );
 
-        console.log(newProduct)
+        if ( this.productId != null ) {
 
-        this.productService
-                .addProduct(newProduct)
-                .then( () => {
-                    this.uiManager.hideProgressBar();
-                    this.uiManager.navigateTo('/restaurantes');
-                });
+            this.productService
+                    .updateProduct(this.productId, productData)
+                    .then( () => {
+                        this.uiManager.hideProgressBar();
+                        this.uiManager.navigateTo('/restaurantes');
+                    });
+
+        } else {
+
+            this.productService
+                    .addProduct(productData)
+                    .then( () => {
+                        this.uiManager.hideProgressBar();
+                        this.uiManager.navigateTo('/restaurantes');
+                    });
+
+        }
 
     }
 
@@ -88,14 +108,8 @@ export class ProductCreatePage implements OnInit {
         const filePath = 'restaurants/'+this.authService.getUserId();
         const fileRef = this.storage.ref(filePath);
 
-        // const task = fileRef.put(file);
-        // const task = fileRef.putString(file);
         const task = this.storage.upload(filePath, file);
-
-        // observe percentage changes
-        this.uploadPercent = task.percentageChanges();
-        
-        // get notified when the download URL is available
+        // this.uploadPercent = task.percentageChanges();
         task.snapshotChanges()
                 .pipe(
                     finalize(() => {
