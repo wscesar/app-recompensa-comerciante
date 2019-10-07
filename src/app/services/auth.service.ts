@@ -10,7 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
 
-    private userId: string
+    private userId: string;
 
     constructor(
         private firebase: AngularFirestore,
@@ -23,33 +23,34 @@ export class AuthService {
 
     logout() {
         this.firebaseAuth.auth.signOut();
-        this.uiManager.navigateTo('/login')
+        this.uiManager.navigateTo('/login');
     }
 
     googleLogin() {
         this.firebaseAuth.auth
                 .signInWithPopup(new auth.GoogleAuthProvider())
                 .then( res => {
-                    console.log(res)
+                    console.log(res);
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/produtos');
+                    this.uiManager.navigateTo('/restaurante/' + this.userId);
                 })
                 .catch(err => {
                     console.log(err);
-                })
+                });
     }
 
     facebookLogin() {
         this.firebaseAuth.auth
                 .signInWithPopup(new auth.FacebookAuthProvider())
                 .then( res => {
-                    console.log(res)
+                    console.log(res);
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/produtos');
+                    this.uiManager.navigateTo('/restaurante/' + this.userId);
+
                 })
                 .catch(err => {
                     console.log(err);
-                })
+                });
     }
 
     loginWithEmail(email: string, password: string) {
@@ -57,23 +58,24 @@ export class AuthService {
                 .signInWithEmailAndPassword(email, password)
                 .then( res => {
                     this.userId = res.user.uid;
-                    this.uiManager.navigateTo('/produtos');
+                    this.uiManager.navigateTo(this.userId);
+                    this.uiManager.navigateTo('/restaurante');
                 })
                 .catch(err => {
                     this.uiManager.alert('Erro', err.code);
-                })
-    } 
-    
-    createUser(name: string, email: string, password: string) {
+                });
+    }
+
+    createUser(title: string, email: string, password: string) {
         this.firebaseAuth.auth
                 .createUserWithEmailAndPassword(email, password)
                 .then( res => {
                     this.userId = res.user.uid;
-                    this.firebase.collection('restaurants').doc(res.user.uid).set({name: name, email: email});
+                    this.firebase.collection('restaurants').doc(res.user.uid).set({title: title, email: email});
                     this.uiManager.navigateTo('/restaurante/editar');
                 })
-                .catch(err => {
+                .catch( err => {
                     this.uiManager.alert('Erro', err.code);
-                })
+                });
     }
 }

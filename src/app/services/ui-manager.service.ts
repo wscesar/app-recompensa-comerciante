@@ -14,13 +14,13 @@ export class UiManagerService {
 
     showLoading() {
         this.loading.create().then( loadingEl => {
-            loadingEl.present()
+            loadingEl.present();
         });
     }
 
 
-    hideProgressBar() {
-        this.loading.dismiss()
+    hideLoading() {
+        this.loading.dismiss();
     }
 
 
@@ -36,8 +36,8 @@ export class UiManagerService {
             });
     }
 
-    navigateTo(route: string){
-        this.navCtrl.navigateForward(route)
+    navigateTo(route: string) {
+        this.navCtrl.navigateForward(route);
     }
 }
 

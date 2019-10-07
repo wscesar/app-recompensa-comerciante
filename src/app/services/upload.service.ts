@@ -20,41 +20,21 @@ export class UploadService {
     downloadURL: Observable<string>;
     uploadPercent: Observable<number>;
 
-    uploadFile(event) {
+    uploadFile(event, filePath: string): Observable<any> {
         const file = event.target.files[0];
-        const filePath = 'restaurants/'+this.authService.getUserId();
         const fileRef = this.storage.ref(filePath);
-
-        // const task = fileRef.put(file);
-        // const task = fileRef.putString(file);
         const task = this.storage.upload(filePath, file);
 
         // observe percentage changes
-        this.uploadPercent = task.percentageChanges();
-        
-        // get notified when the download URL is available
-        return task.snapshotChanges()
+        // this.uploadPercent = task.percentageChanges();
+
+        return task
+                .snapshotChanges()
                 .pipe(
                     finalize(() => {
                         this.downloadURL = fileRef.getDownloadURL();
-                        this.updateImageUrl();
                     })
-                )
-                .subscribe()
+                );
     }
-
-    updateImageUrl() {
-        this.downloadURL.subscribe(imageUrl => {
-            this.restaurantService.updateRestaurantImage(imageUrl)
-            return imageUrl
-        });
-    }
-
-    // updateImageUrl() {
-    //     this.downloadURL.subscribe(imageUrl => {
-    //         this.restaurantService.updateRestaurantImage(imageUrl)
-    //         this.image = imageUrl
-    //     });
-    // }
 
 }

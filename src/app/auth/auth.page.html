@@ -22,7 +22,7 @@
                     <ion-icon slot="end" [name]="icon" (click)='onTogglePassword()'></ion-icon>
                 </ion-item>
     
-                <ion-button (click)="onSignUp()" [disabled]="!loginForm.valid"
+                <ion-button (click)="onLogin()" [disabled]="!loginForm.valid"
                     type="button" expand="block">{{authMode}}</ion-button>
     
                 <ion-button (click)="onChangeMode()" 

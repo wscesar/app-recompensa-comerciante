@@ -12,29 +12,25 @@ import { UiManagerService } from './ui-manager.service';
 })
 export class ProductService {
 
-    constructor (
+    constructor(
         private uiManager: UiManagerService,
         private db: AngularFirestore,
         private authService: AuthService ) {}
 
-    // updateProductImage(productId: string, imageUrl: string) { 
-    //     return this.db.collection('products').doc(productId).update({image: imageUrl})
+    // getAllProducts() {
+    //     return this.db
+    //                 .collection('products')
+    //                 .snapshotChanges()
+    //                 .pipe (
+    //                     map ( ( docArray: DocumentChangeAction<any>[] ) => {
+    //                         return docArray.map( ( doc: DocumentChangeAction<any> ) => {
+    //                             const data: Product = doc.payload.doc.data();
+    //                             const id = doc.payload.doc.id;
+    //                             return {...data, id};
+    //                         });
+    //                     }),
+    //                 );
     // }
-
-    getAllProducts() {
-        return this.db
-                    .collection('products')
-                    .snapshotChanges()
-                    .pipe (
-                        map ( ( docArray: DocumentChangeAction<any>[] ) => {
-                            return docArray.map( ( doc: DocumentChangeAction<any> ) => {
-                                const data: Product = doc.payload.doc.data();
-                                const id = doc.payload.doc.id;
-                                return {...data, id};
-                            });
-                        }),
-                    );
-    }
 
     getProducts(restaurantId: string) {
         return this.db
@@ -53,34 +49,39 @@ export class ProductService {
 
     getProduct(productId: string) {
         return this.db
-                    .doc<Product>('products/'+productId)
+                    .doc<Product>('products/' + productId)
                     .snapshotChanges()
                     .pipe (
                         map ( doc => {
-                            const data = doc.payload.data()
+                            const data = doc.payload.data();
                             const id = doc.payload.id;
-                            const products = null
-                            return { ...data, id, products };
+                            return { ...data, id };
                         })
                     );
     }
 
     addProduct(product: Product) {
-        console.log(product)
-        return this.db.collection('products').add({...product})
+        return this.db.collection('products').add({...product});
     }
 
     updateProduct(productId: string, product: Product) {
         return this.db
-                    .doc(`/products/${productId}`)
-                    .set(product)
+                    .doc('/products/' + productId)
+                    .update({...product});
     }
 
     deleteProduct(productId: string) {
         return this.db
-                    .doc(`/products/${productId}`)
-                    .delete()
+                    .doc('/products/' + productId)
+                    .delete();
     }
 
-  
+
+    updatePromo(productId: string, product: Product) {
+        return this.db
+                    .doc('/products/' + productId + 'promo')
+                    .update({...product});
+    }
+
+
 }

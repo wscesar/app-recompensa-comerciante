@@ -22,7 +22,7 @@ export class AuthPage implements OnInit {
         ) {}
 
     ngOnInit() {
-        
+
         this.loginForm = new FormGroup({
 
             email: new FormControl('bbi@bbi.com', {
@@ -55,41 +55,42 @@ export class AuthPage implements OnInit {
             })
 
         });
+
     }
 
-    
+
     onChangeMode() {
         if ( this.authMode === 'login' ) {
-            this.authMode = 'criar conta'
-            this.authMode02 = 'login'
+            this.authMode = 'criar conta';
+            this.authMode02 = 'login';
         } else {
-            this.authMode = 'login'
-            this.authMode02 = 'criar conta'
+            this.authMode = 'login';
+            this.authMode02 = 'criar conta';
         }
     }
 
 
     onTogglePassword() {
         if ( this.icon === 'eye-off' ) {
-            this.icon = 'eye'
-            this.inputType = 'password'
+            this.icon = 'eye';
+            this.inputType = 'password';
         } else {
-            this.icon = 'eye-off'
-            this.inputType = 'text'
+            this.icon = 'eye-off';
+            this.inputType = 'text';
         }
     }
-    
+
 
     onGoogleLogin() {
         this.authService.googleLogin();
     }
 
-    
+
     onFacebookLogin() {
         this.authService.facebookLogin();
     }
 
-    
+
     onLogin() {
         this.authService.loginWithEmail(
             this.loginForm.value.email,

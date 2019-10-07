@@ -1,0 +1,69 @@
+<ion-header>
+        <ion-toolbar>
+            
+            <ion-title *ngIf="restaurant">{{restaurant.title}}</ion-title>
+    
+            <ion-buttons slot="end">
+                <ion-menu-toggle>
+                    <ion-button>
+                        <ion-icon name="menu"></ion-icon>
+                    </ion-button>
+                </ion-menu-toggle>
+            </ion-buttons>
+    
+        </ion-toolbar>
+    </ion-header>
+  
+<ion-content class="ion-padding">
+
+    <div *ngIf="isLoading" class="ion-padding ion-text-center">
+        <ion-spinner color="primary"></ion-spinner>
+    </div>
+
+    <ion-row *ngIf="!isLoading">
+
+        <ion-col size="6" offset="3" *ngIf="restaurant">
+            <ion-img class="profile-image" [src]="restaurant.image"></ion-img>
+        </ion-col>
+
+        <ion-col size-md="6" offset-md="3">
+
+            <ion-label class="ion-text-center">
+                <h2 *ngIf="products && products.length > 0">Produtos Disponíveis</h2>
+                <h2 *ngIf="!products || products.length == 0">Não há produtos cadastrados</h2>
+            </ion-label>
+
+            <ion-button routerLink="/cadastrar-produto"
+                expand="block">Cadastrar Produto</ion-button>
+
+            <ion-list *ngIf="products && products.length > 0">
+                    
+                <ion-item *ngFor="let product of products" no-padding>
+                    <!-- detail [routerLink]="['/', 'produto', product.id]" -->
+                    <ion-thumbnail class="ion-margin">
+                        <ion-img [src]="product.image"></ion-img>
+                    </ion-thumbnail>
+        
+                    <ion-label>
+                        <h2>{{ product.title }}</h2>
+                        <p>Preço: {{ product.price }}</p>
+                    </ion-label>
+
+                    <ion-icon name="create" color="primary" slot="end" 
+                        [routerLink]="['/','editar-produto', product.id]">
+                    </ion-icon>
+                            
+                    <ion-icon name="trash" color="danger" slot="end" 
+                        (click)="onDeleteProduct(product.id)">
+                    </ion-icon>
+                    
+                </ion-item>
+                
+            </ion-list>  
+
+        </ion-col>
+
+    </ion-row>  
+      
+</ion-content>
+  

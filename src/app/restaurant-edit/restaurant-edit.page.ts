@@ -8,12 +8,13 @@ import { AuthService } from '../services/auth.service';
 import { UploadService } from '../services/upload.service';
 import { UiManagerService } from '../services/ui-manager.service';
 import { RestaurantService } from '../services/restaurant.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-profile-edit',
-  templateUrl: './profile-edit.page.html',
+  selector: 'app-restaurant-edit',
+  templateUrl: './restaurant-edit.page.html',
 })
-export class ProfileEditPage implements OnInit {
+export class RestaurantEditPage implements OnInit {
     form: FormGroup;
     title: string;
     image: string = null;
@@ -21,9 +22,12 @@ export class ProfileEditPage implements OnInit {
     uploadPercent: Observable<number>;
 
     dataSubscription: Subscription;
+    restaurantId: string;
 
-    constructor (
+    constructor(
+        private route: ActivatedRoute,
         private authService: AuthService,
+        private uploadService: UploadService,
         private uiManager: UiManagerService,
         private storage: AngularFireStorage,
         private restaurantService: RestaurantService,
@@ -31,29 +35,32 @@ export class ProfileEditPage implements OnInit {
 
     ngOnInit() {
         this.setForm(null);
+    }
 
-        let restaurantId =  this.authService.getUserId();
+    ionViewWillEnter() {
+        this.setForm(null);
+        this.restaurantId = this.authService.getUserId();
+
+        console.log(this.restaurantId);
 
         this.restaurantService
-                .getRestaurant(restaurantId)
+                .getRestaurant(this.restaurantId)
                 .pipe(take(1))
                 .subscribe(
                     res => {
-                        this.image = res.image
-                        console.log(res.image)
-                        this.title =  res.title
+                        this.image = res.image;
+                        this.title =  res.title;
                         this.setForm(this.title);
                     }
-                )
+                );
     }
 
     uploadFile(event) {
         const file = event.target.files[0];
-        const filePath = 'restaurants/'+this.authService.getUserId();
+        const filePath = 'restaurants/' + this.restaurantId;
         const fileRef = this.storage.ref(filePath);
-        
         const task = this.storage.upload(filePath, file);
-        // this.uploadPercent = task.percentageChanges();
+
         task.snapshotChanges()
                 .pipe(
                     finalize(() => {
@@ -61,16 +68,16 @@ export class ProfileEditPage implements OnInit {
                         this.updateImage();
                     })
                 )
-                .subscribe()
+                .subscribe();
     }
 
     updateImage() {
         this.downloadURL.subscribe(imageUrl => {
-            this.restaurantService.updateRestaurantImage(imageUrl);
+            this.restaurantService.updateRestaurantImage(this.restaurantId, imageUrl);
             this.image = imageUrl;
         });
     }
-  
+
     setForm( title: string ) {
         this.form = new FormGroup({
             title: new FormControl(title, {
@@ -83,15 +90,14 @@ export class ProfileEditPage implements OnInit {
     onSubmit() {
         const updatedData = {
             title: this.form.value.title
-        }
+        };
 
         this.restaurantService
-            .updateRestaurant(updatedData)
+            .updateRestaurant(this.restaurantId, updatedData)
             .then(res => {
-                this.uiManager.navigateTo('/restaurantes')
+                this.uiManager.navigateTo('/restaurante');
             })
-            .catch(err => (console.log(err)))
+            .catch(err => (console.log(err)));
     }
-    
+
   }
-  
