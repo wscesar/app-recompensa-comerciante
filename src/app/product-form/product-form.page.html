@@ -31,6 +31,7 @@
         </ion-col>
         
         <ion-col size-md="6" offset-md="3">
+            
             <ion-button (click)="filePicker.click()" color="danger"
                 type="button" expand="block">Selecionar imagem</ion-button>
 
@@ -45,29 +46,31 @@
                 </ion-item>
 
                 <ion-item class="ion-margin-bottom" *ngIf="image != null">
-                    <ion-label position="floating">Preço</ion-label>
+                    <ion-label position="floating">Pontos</ion-label>
                     <ion-input type="number" formControlName="price"></ion-input>
                 </ion-item>
 
                 <ion-item class="ion-margin-bottom" *ngIf="image != null">
                     <ion-label position="floating">Inicia em</ion-label>
-                    <ion-datetime formControlName="startDate"></ion-datetime>
+                    <ion-datetime
+                        formControlName="startDate" displayFormat="DD/MM/YYYY"
+                        max="2030-12-31" [min]="today"
+                        (blur)="onStartDateChange()">
+                    </ion-datetime>
                 </ion-item>
 
                 <ion-item class="ion-margin-bottom" *ngIf="image != null">
                     <ion-label position="floating">Finaliza em</ion-label>
-                    <ion-datetime formControlName="endDate"></ion-datetime>
+                    <ion-datetime
+                        formControlName="endDate" displayFormat="DD/MM/YYYY"
+                        max="2030-12-31" [min]="startDate">
+                    </ion-datetime>
                 </ion-item>
-
-                
             
                 <ion-button *ngIf="image != null" type="submit" expand="block">Salvar</ion-button>
         
             </form>
         </ion-col>
-
-        
-
         
     </ion-row> 
 </ion-content>

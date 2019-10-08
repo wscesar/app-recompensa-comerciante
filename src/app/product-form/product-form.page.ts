@@ -26,6 +26,8 @@ export class ProductFormPage implements OnInit {
     downloadURL: Observable<string>;
     uploadPercent: Observable<number>;
     isLoading = true;
+    startDate: string;
+    today = new Date().toISOString();
 
     constructor(
         private route: ActivatedRoute,
@@ -90,9 +92,27 @@ export class ProductFormPage implements OnInit {
         });
     }
 
+
+    onStartDateChange() {
+        // const startDate = this.form.value.startDate;
+        // const endDate = this.form.value.endDate;
+        const startDate = new Date(this.form.value.startDate).toISOString();
+        const endDate = new Date(this.form.value.endDate).toISOString();
+
+        // this.startDate = this.form.value.startDate;
+        this.startDate = startDate;
+
+        if (startDate > endDate) {
+            this.form.patchValue({endDate: startDate});
+        }
+    }
+
     onSubmit() {
 
         this.isLoading = true;
+
+        // const startDate = new Date(this.form.value.startDate);
+        // const endDate = new Date(this.form.value.endDate);
 
         const promoData =  new Promotion(
             9,
@@ -106,8 +126,8 @@ export class ProductFormPage implements OnInit {
             this.image,
             this.restaurantId,
             +this.form.value.price * 0.5,
-            this.form.value.startDate,
-            this.form.value.endDate,
+            new Date(this.form.value.startDate).toISOString(),
+            new Date(this.form.value.endDate).toISOString(),
         );
 
         if ( this.productId != null ) {

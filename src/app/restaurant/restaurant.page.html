@@ -28,25 +28,25 @@
 
         <ion-col size-md="6" offset-md="3">
 
-            <ion-label class="ion-text-center">
+            <ion-button  routerLink="/cadastrar-produto"
+                expand="block">Cadastrar Produto</ion-button>
+
+            <ion-label class="ion-text-center ion-margin">
                 <h2 *ngIf="products && products.length > 0">Produtos Disponíveis</h2>
                 <h2 *ngIf="!products || products.length == 0">Não há produtos cadastrados</h2>
             </ion-label>
-
-            <ion-button routerLink="/cadastrar-produto"
-                expand="block">Cadastrar Produto</ion-button>
-
+                
             <ion-list *ngIf="products && products.length > 0">
                     
                 <ion-item *ngFor="let product of products" no-padding>
-                    <!-- detail [routerLink]="['/', 'produto', product.id]" -->
+
                     <ion-thumbnail class="ion-margin">
                         <ion-img [src]="product.image"></ion-img>
                     </ion-thumbnail>
         
                     <ion-label>
                         <h2>{{ product.title }}</h2>
-                        <p>Preço: {{ product.price }}</p>
+                        <p>{{ product.price | currency: 'BRL' }}</p>
                     </ion-label>
 
                     <ion-icon name="create" color="primary" slot="end" 

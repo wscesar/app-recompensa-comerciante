@@ -17,6 +17,7 @@ export class RestaurantPage implements OnInit {
     private restaurant: Restaurant ;
     private products: Product[];
     private isLoading: boolean;
+    private showProduct = true;
 
     constructor(
         private uiManager: UiManagerService,
@@ -28,6 +29,7 @@ export class RestaurantPage implements OnInit {
     ngOnInit() {}
 
     ionViewWillEnter() {
+        console.log(new Date());
         this.isLoading = true;
         this.uiManager.hideLoading();
 

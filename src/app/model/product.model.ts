@@ -13,7 +13,7 @@ export class Product {
         public id?: string,
         // public promotion?: Promotion
         public promoPrice?: number,
-        public startDate?: string,
-        public endDate?: string
+        public startDate?: any,
+        public endDate?: any
     ) {}
   }
