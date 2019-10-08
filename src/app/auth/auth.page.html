@@ -11,12 +11,12 @@
                 
             <form [formGroup]="loginForm" *ngIf="authMode == 'login'">
 
-                <ion-item>
+                <ion-item class="ion-margin-bottom">
                     <ion-label position="floating">E-Mail</ion-label>
                     <ion-input type="email" formControlName="email"></ion-input>
                 </ion-item>
             
-                <ion-item>
+                <ion-item class="ion-margin-bottom">
                     <ion-label position="floating">Senha</ion-label>
                     <ion-input [type]="inputType" formControlName="password"></ion-input>
                     <ion-icon slot="end" [name]="icon" (click)='onTogglePassword()'></ion-icon>

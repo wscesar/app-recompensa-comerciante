@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { take, finalize } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth.service';
-import { UploadService } from '../services/upload.service';
 import { UiManagerService } from '../services/ui-manager.service';
 import { RestaurantService } from '../services/restaurant.service';
-import { ActivatedRoute } from '@angular/router';
+import { Restaurant } from '../model/restaurant.model';
 
 @Component({
   selector: 'app-restaurant-edit',
@@ -16,41 +15,87 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestaurantEditPage implements OnInit {
     form: FormGroup;
-    title: string;
-    image: string = null;
+    restaurantId: string;
+    restaurant: Restaurant;
+    hasAlternativeHours = false;
     downloadURL: Observable<string>;
     uploadPercent: Observable<number>;
-
-    dataSubscription: Subscription;
-    restaurantId: string;
+    week = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
 
     constructor(
-        private route: ActivatedRoute,
         private authService: AuthService,
-        private uploadService: UploadService,
         private uiManager: UiManagerService,
         private storage: AngularFireStorage,
         private restaurantService: RestaurantService,
     ) {}
 
     ngOnInit() {
-        this.setForm(null);
+        this.form = new FormGroup({
+            title: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+            weekDays: new FormControl(null, {
+                updateOn: 'change',
+            }),
+
+            openAt: new FormControl(null, {
+                updateOn: 'change',
+            }),
+
+            closeAt: new FormControl(null, {
+                updateOn: 'change',
+            }),
+
+            alternativeHours: new FormGroup({
+
+                weekDays: new FormControl(null, {
+                    updateOn: 'change',
+                }),
+
+                openAt: new FormControl(null, {
+                    updateOn: 'change',
+                }),
+
+                closeAt: new FormControl(null, {
+                    updateOn: 'change',
+                }),
+
+            })
+
+        });
     }
 
     ionViewWillEnter() {
-        this.setForm(null);
         this.restaurantId = this.authService.getUserId();
-
-        console.log(this.restaurantId);
 
         this.restaurantService
                 .getRestaurant(this.restaurantId)
                 .pipe(take(1))
                 .subscribe(
                     res => {
-                        this.image = res.image;
-                        this.title =  res.title;
-                        this.setForm(this.title);
+                        this.restaurant = res;
+
+
+
+                        if ( !!res.hours[1] ) {
+                            this.hasAlternativeHours = true;
+                        }
+
+                        console.log(this.hasAlternativeHours);
+
+                        this.form.patchValue({
+                            title: res.title,
+                            closeAt: res.hours[0].to,
+                            openAt: res.hours[0].from,
+                            weekDays: res.hours[0].days,
+                            alternativeHours: {
+                                closeAt: res.hours[1].to,
+                                openAt: res.hours[1].from,
+                                weekDays: res.hours[1].days,
+                            }
+                        });
                     }
                 );
     }
@@ -74,22 +119,49 @@ export class RestaurantEditPage implements OnInit {
     updateImage() {
         this.downloadURL.subscribe(imageUrl => {
             this.restaurantService.updateRestaurantImage(this.restaurantId, imageUrl);
-            this.image = imageUrl;
+            this.restaurant.image = imageUrl;
         });
     }
 
-    setForm( title: string ) {
-        this.form = new FormGroup({
-            title: new FormControl(title, {
-                updateOn: 'blur',
-                validators: [Validators.required]
-            })
-        });
+
+    toggleAlternateHours() {
+        if ( this.hasAlternativeHours ) {
+            this.hasAlternativeHours = false;
+            // return false;
+        } else {
+            this.hasAlternativeHours = true;
+            // return true;
+        }
+
+        console.log(this.hasAlternativeHours)
     }
 
     onSubmit() {
+
+        const openingHours = [];
+
+        const hours = {
+            from: this.form.value.openAt,
+            to: this.form.value.closeAt,
+            days: this.form.value.weekDays,
+        };
+
+
+        openingHours.push(hours);
+
+        if ( this.hasAlternativeHours ) {
+            const alternateHours = {
+                from: this.form.value.alternativeHours.openAt,
+                to: this.form.value.alternativeHours.closeAt,
+                days: this.form.value.alternativeHours.weekDays,
+            };
+
+            openingHours.push(alternateHours);
+        }
+
         const updatedData = {
-            title: this.form.value.title
+            title: this.form.value.title,
+            hours: openingHours
         };
 
         this.restaurantService

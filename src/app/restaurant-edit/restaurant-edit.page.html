@@ -20,12 +20,81 @@
 
 <ion-content class="ion-padding">
     <ion-row>
+        
+        <ion-col size="6" offset="3" size-md="4" offset-md="4"  *ngIf="restaurant">
+            <ion-img [src]="restaurant.image"></ion-img>
+        </ion-col>
+
         <ion-col size-md="6" offset-md="3">
             <form [formGroup]="form" (submit)="onSubmit()">
+
                 <ion-item class="ion-margin-bottom">
                     <ion-label position="floating">Nome do Restaurante</ion-label>
                     <ion-input formControlName="title"></ion-input>
                 </ion-item>
+
+                <ion-item>
+                    <ion-label>Horário de Funcionamento</ion-label>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>Dias</ion-label>
+                    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" formControlName="weekDays">
+                        <ion-select-option  *ngFor="let day of week; let i= index" value="{{i}}">{{day}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-item class="ion-margin-bottom">
+                            <ion-label position="floating">Abre</ion-label>
+                            <ion-datetime formControlName="openAt" displayFormat="HH:mm" minuteValues="0,15,30,45" >
+                            </ion-datetime>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="6">
+                        <ion-item class="ion-margin-bottom">
+                            <ion-label position="floating">Fecha</ion-label>
+                            <ion-datetime formControlName="closeAt" displayFormat="HH:mm" minuteValues="0,15,30,45" >
+                            </ion-datetime>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+
+                <ion-item (click)="toggleAlternateHours()">
+                    <ion-label>Possui horário alternativo</ion-label>
+                    <ion-checkbox [checked]="hasAlternativeHours" slot="start" ></ion-checkbox>
+                </ion-item>
+
+                <div formGroupName="alternativeHours" *ngIf="hasAlternativeHours">
+
+                    <ion-item>
+                        <ion-label>Dias</ion-label>
+                        <ion-select multiple="true" cancelText="Cancelar" okText="Ok" formControlName="weekDays">
+                            <ion-select-option  *ngFor="let day of week; let i= index" value="{{i}}">{{day}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-row>
+                        <ion-col size="6">
+                            <ion-item class="ion-margin-bottom">
+                                <ion-label position="floating">Abre</ion-label>
+                                <ion-datetime formControlName="openAt" displayFormat="HH:mm" minuteValues="0,15,30,45" >
+                                </ion-datetime>
+                            </ion-item>
+                        </ion-col>
+
+                        <ion-col size="6">
+                            <ion-item class="ion-margin-bottom">
+                                <ion-label position="floating">Fecha</ion-label>
+                                <ion-datetime formControlName="closeAt" displayFormat="HH:mm" minuteValues="0,15,30,45" >
+                                </ion-datetime>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    
+                </div>
 
                 <ion-button (click)="filePicker.click()" color="danger"
                     type="button" expand="block">Selecionar imagem</ion-button>
@@ -34,13 +103,13 @@
                     #filePicker  (change)="uploadFile($event)" />
                 
                 <ion-button type="submit" expand="block">Atualizar Perfil</ion-button>
+
+                
         
             </form>
         </ion-col>
 
-        <ion-col size="6" offset="3" size-md="4" offset-md="4"  *ngIf="image != null">
-            <ion-img [src]="image"></ion-img>
-        </ion-col>
+        
     </ion-row>
     
 </ion-content>

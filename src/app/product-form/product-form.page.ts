@@ -94,12 +94,9 @@ export class ProductFormPage implements OnInit {
 
 
     onStartDateChange() {
-        // const startDate = this.form.value.startDate;
-        // const endDate = this.form.value.endDate;
         const startDate = new Date(this.form.value.startDate).toISOString();
         const endDate = new Date(this.form.value.endDate).toISOString();
 
-        // this.startDate = this.form.value.startDate;
         this.startDate = startDate;
 
         if (startDate > endDate) {
@@ -108,17 +105,7 @@ export class ProductFormPage implements OnInit {
     }
 
     onSubmit() {
-
         this.isLoading = true;
-
-        // const startDate = new Date(this.form.value.startDate);
-        // const endDate = new Date(this.form.value.endDate);
-
-        const promoData =  new Promotion(
-            9,
-            this.form.value.startDate,
-            this.form.value.endDate,
-        );
 
         const productData = new Product (
             this.form.value.product,

@@ -29,7 +29,6 @@ export class RestaurantPage implements OnInit {
     ngOnInit() {}
 
     ionViewWillEnter() {
-        console.log(new Date());
         this.isLoading = true;
         this.uiManager.hideLoading();
 

@@ -25,12 +25,12 @@ export class AuthPage implements OnInit {
 
         this.loginForm = new FormGroup({
 
-            email: new FormControl('bbi@bbi.com', {
+            email: new FormControl(null, {
                 updateOn: 'change',
                 validators: [Validators.required, Validators.email]
             }),
 
-            password: new FormControl('comfoodbbi', {
+            password: new FormControl(null, {
                 updateOn: 'change',
                 validators: [Validators.required, Validators.minLength(8)]
             })

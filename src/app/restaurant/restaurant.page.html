@@ -38,7 +38,7 @@
                 
             <ion-list *ngIf="products && products.length > 0">
                     
-                <ion-item *ngFor="let product of products" no-padding>
+                <ion-item *ngFor="let product of products">
 
                     <ion-thumbnail class="ion-margin">
                         <ion-img [src]="product.image"></ion-img>
