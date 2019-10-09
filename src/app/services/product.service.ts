@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Product } from '../model/product.model';
 import { AuthService } from './auth.service';
 import { UiManagerService } from './ui-manager.service';
+import { Voucher } from '../model/voucher.model';
 
 
 @Injectable({
@@ -17,6 +18,27 @@ export class ProductService {
         private firebase: AngularFirestore,
         private authService: AuthService ) {}
 
+    validateVoucher(voucherId: string) {
+        return this.firebase
+                    .doc('/vouchers/' + voucherId)
+                    .update({validate: true});
+    }
+
+    getVouchers(restaurantId: string) {
+        return this.firebase
+                    .collection('vouchers', ref => ref.where('restaurantId', '==', restaurantId))
+                    .snapshotChanges()
+                    .pipe (
+                        map ( ( docArray: DocumentChangeAction<any>[] ) => {
+                            return docArray.map( ( doc: DocumentChangeAction<any> ) => {
+                                // return doc.payload.doc.data();
+                                const data: Voucher = doc.payload.doc.data();
+                                const id = doc.payload.doc.id;
+                                return {...data, id};
+                            });
+                        }),
+                    );
+    }
 
     getProducts(restaurantId: string) {
         return this.firebase

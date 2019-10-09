@@ -22,7 +22,7 @@
 
     <ion-row *ngIf="!isLoading" class="ion-margin-top">
 
-        <ion-col size="6" offset="3" *ngIf="restaurant"  >
+        <ion-col size="6" offset="3" size-md="2" offset-md="5" *ngIf="restaurant"  >
             <ion-img class="profile-image" [src]="restaurant.image"></ion-img>
         </ion-col>
 
@@ -43,9 +43,8 @@
                 
             <ion-virtual-scroll [items]="products" approxItemHeight="70px">
                     
-                <ion-item-sliding  *virtualItem="let product">
+                <ion-item-sliding *virtualItem="let product">
                     <ion-item>
-
                         <ion-thumbnail class="ion-margin">
                             <ion-img [src]="product.image"></ion-img>
                         </ion-thumbnail>
@@ -54,11 +53,6 @@
                             <h2>{{ product.title }}</h2>
                             <p>{{ product.price | currency: 'BRL' }}</p>
                         </ion-label>
-
-                        
-                                
-                        
-                        
                     </ion-item>
 
                     <ion-item-options side="end">
@@ -74,7 +68,7 @@
                     </ion-item-options>
                 </ion-item-sliding>
                 
-            </ion-virtual-scroll>  
+            </ion-virtual-scroll>
 
         </ion-col>
 

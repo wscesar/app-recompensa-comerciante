@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>vouchers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="vouchers && vouchers.length > 0">
+    <ion-virtual-scroll [items]="vouchers" approxItemHeight="70px">
+        <ion-item-sliding *virtualItem="let voucher; let i = index">
+            <ion-item>
+                <ion-label>{{voucher.voucherId}}</ion-label>
+                <ion-label>{{products[i].title}}</ion-label>
+                <ion-label>{{users[i].name}}</ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+
+                    <ion-item-option
+                        (click)="onValidateVoucher(voucher.id)">
+                        <ion-icon name="create"></ion-icon>
+                    </ion-item-option>
+
+                </ion-item-options>
+        </ion-item-sliding>
+    </ion-virtual-scroll>
+</ion-content>

@@ -46,6 +46,7 @@ const routes: Routes = [
 
         ]
     },
+  { path: 'comprovantes', loadChildren: './vouchers/vouchers.module#VouchersPageModule' },
 
 
 ];
