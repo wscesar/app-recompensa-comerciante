@@ -11,7 +11,7 @@
             
             <form [formGroup]="form"  (submit)="onSubmit()">
 
-                    <ion-item class="ion-margin-bottom" *ngIf="authMode != 'login'">
+                <ion-item class="ion-margin-bottom" *ngIf="authMode != 'login'">
                     <ion-label position="floating">Nome</ion-label>
                     <ion-input formControlName="name"></ion-input>
                 </ion-item>
