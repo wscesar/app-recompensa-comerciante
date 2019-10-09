@@ -10,7 +10,7 @@ export class Product {
         public title: string,
         public price: number,
         public image: string,
-        public id?: string,
+        public restaurantId?: string,
         // public promotion?: Promotion
         public promoPrice?: number,
         public startDate?: any,

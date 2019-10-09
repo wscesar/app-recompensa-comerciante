@@ -14,7 +14,7 @@ import { UiManagerService } from '../services/ui-manager.service';
 export class RestaurantPage implements OnInit {
 
     private restaurantId: string;
-    private restaurant: Restaurant ;
+    private restaurant: Restaurant;
     private products: Product[];
     private isLoading: boolean;
     private showProduct = true;
@@ -30,7 +30,7 @@ export class RestaurantPage implements OnInit {
 
     ionViewWillEnter() {
         this.isLoading = true;
-        this.uiManager.hideLoading();
+        // this.uiManager.hideLoading();
 
         this.restaurantId = this.authService.getUserId();
 

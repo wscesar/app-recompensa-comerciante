@@ -26,8 +26,8 @@ export class ProductFormPage implements OnInit {
     downloadURL: Observable<string>;
     uploadPercent: Observable<number>;
     isLoading = true;
-    startDate: string;
-    today = new Date().toISOString();
+    today: string = new Date().toISOString().substring(0, 10);
+    startDate = this.today;
 
     constructor(
         private route: ActivatedRoute,
@@ -39,11 +39,43 @@ export class ProductFormPage implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.setForm(null, null, null, null);
+
+        this.form = new FormGroup({
+
+            product: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+            image: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+            price: new FormControl(null, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+            startDate: new FormControl(this.today, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+            endDate: new FormControl(this.today, {
+                updateOn: 'change',
+                validators: [Validators.required]
+            }),
+
+        });
+
     }
 
     ionViewWillEnter() {
-        this.setForm(null, null, null, null);
+        setTimeout( () => {
+            this.form.patchValue({endDate: this.today});
+        }, 1000);
+
         this.productId =  this.route.snapshot.paramMap.get('productId');
         this.restaurantId = this.authService.getUserId();
 
@@ -54,48 +86,21 @@ export class ProductFormPage implements OnInit {
                     res => {
                         this.isLoading = false;
                         this.image = res.image;
-                        this.setForm(res.title, res.price, res.startDate, res.endDate);
-
-                        // this.form.patchValue({title: res.title});
-                    }
-                );
+                        this.form.patchValue({
+                            product: res.title,
+                            image: res.image,
+                            price: res.price,
+                            startDate: res.startDate,
+                            endDate: res.endDate
+                        });
+                    });
     }
 
-    setForm( product: string, price: number, startDate: string, endDate: string ) {
-        this.form = new FormGroup({
-
-            product: new FormControl(product, {
-                updateOn: 'change',
-                validators: [Validators.required]
-            }),
-
-            price: new FormControl(price, {
-                updateOn: 'change',
-                validators: [Validators.required]
-            }),
-
-            // promoPrice: new FormControl(price, {
-            //     updateOn: 'change',
-            //     validators: [Validators.required]
-            // }),
-
-            startDate: new FormControl(startDate, {
-                updateOn: 'change',
-                validators: [Validators.required]
-            }),
-
-            endDate: new FormControl(endDate, {
-                updateOn: 'change',
-                validators: [Validators.required]
-            }),
-
-        });
-    }
 
 
     onStartDateChange() {
-        const startDate = new Date(this.form.value.startDate).toISOString();
-        const endDate = new Date(this.form.value.endDate).toISOString();
+        const startDate = new Date(this.form.value.startDate).toISOString().substring(0, 10);
+        const endDate = new Date(this.form.value.endDate).toISOString().substring(0, 10);
 
         this.startDate = startDate;
 
@@ -158,6 +163,8 @@ export class ProductFormPage implements OnInit {
 
     updateImage() {
         this.downloadURL.subscribe(imageUrl => {
+            // this.productService.updateProductImage(this.productId, imageUrl);
+            this.form.patchValue({image: imageUrl});
             this.isLoading = false;
             this.image = imageUrl;
         });

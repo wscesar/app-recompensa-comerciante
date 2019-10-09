@@ -10,7 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
 
-    private userId: string;
+    private userId: string = '7xI2jxeMMOS8Gr0qTexcICpxZS92';
 
     constructor(
         private firebase: AngularFirestore,

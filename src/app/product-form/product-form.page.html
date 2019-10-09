@@ -46,6 +46,13 @@
                 </ion-item>
 
                 <ion-item class="ion-margin-bottom" *ngIf="image != null">
+                    <ion-label position="floating">imagem</ion-label>
+                    <ion-input formControlName="image" style="display: snone"></ion-input>
+                </ion-item>
+                
+                
+
+                <ion-item class="ion-margin-bottom" *ngIf="image != null">
                     <ion-label position="floating">Pontos</ion-label>
                     <ion-input type="number" formControlName="price"></ion-input>
                 </ion-item>
@@ -54,8 +61,8 @@
                     <ion-label position="floating">Inicia em</ion-label>
                     <ion-datetime
                         formControlName="startDate" displayFormat="DD/MM/YYYY"
-                        max="2030-12-31" [min]="today"
-                        (blur)="onStartDateChange()">
+                        max="2030-12-31" [min]="today" [value]="today"
+                        (ionBlur)="onStartDateChange()">
                     </ion-datetime>
                 </ion-item>
 
@@ -63,7 +70,7 @@
                     <ion-label position="floating">Finaliza em</ion-label>
                     <ion-datetime
                         formControlName="endDate" displayFormat="DD/MM/YYYY"
-                        max="2030-12-31" [min]="startDate">
+                        max="2030-12-31" [min]="startDate" [value]="today">
                     </ion-datetime>
                 </ion-item>
             

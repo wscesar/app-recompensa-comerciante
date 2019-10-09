@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 import { Product } from '../model/product.model';
 import { AuthService } from './auth.service';
@@ -14,27 +14,13 @@ export class ProductService {
 
     constructor(
         private uiManager: UiManagerService,
-        private db: AngularFirestore,
+        private firebase: AngularFirestore,
         private authService: AuthService ) {}
 
-    // getAllProducts() {
-    //     return this.db
-    //                 .collection('products')
-    //                 .snapshotChanges()
-    //                 .pipe (
-    //                     map ( ( docArray: DocumentChangeAction<any>[] ) => {
-    //                         return docArray.map( ( doc: DocumentChangeAction<any> ) => {
-    //                             const data: Product = doc.payload.doc.data();
-    //                             const id = doc.payload.doc.id;
-    //                             return {...data, id};
-    //                         });
-    //                     }),
-    //                 );
-    // }
 
     getProducts(restaurantId: string) {
-        return this.db
-                    .collection('products', ref => ref.where('id', '==', restaurantId))
+        return this.firebase
+                    .collection('products', ref => ref.where('restaurantId', '==', restaurantId))
                     .snapshotChanges()
                     .pipe (
                         map ( ( docArray: DocumentChangeAction<any>[] ) => {
@@ -47,8 +33,9 @@ export class ProductService {
                     );
     }
 
+
     getProduct(productId: string) {
-        return this.db
+        return this.firebase
                     .doc<Product>('products/' + productId)
                     .snapshotChanges()
                     .pipe (
@@ -60,28 +47,37 @@ export class ProductService {
                     );
     }
 
+
     addProduct(product: Product) {
-        return this.db.collection('products').add({...product});
+        return this.firebase.collection('products').add({...product});
+        // return this.firebase.collection('restaurants/' + '/products').add({...product});
     }
 
+
+    updateProductImage(productId: string, imageUrl: string) {
+        return this.firebase.collection('products').doc(productId).update({image: imageUrl});
+    }
+
+
     updateProduct(productId: string, product: Product) {
-        return this.db
+        return this.firebase
                     .doc('/products/' + productId)
                     .update({...product});
     }
 
+
     deleteProduct(productId: string) {
-        return this.db
+        return this.firebase
                     .doc('/products/' + productId)
                     .delete();
     }
 
 
-    updatePromo(productId: string, product: Product) {
-        return this.db
-                    .doc('/products/' + productId + 'promo')
-                    .update({...product});
-    }
+    // updatePromo(productId: string, product: Product) {
+    //     return this.firebase
+    //                 .doc('/products/' + productId + 'promo')
+    //                 .update({...product});
+    // }
 
 
 }

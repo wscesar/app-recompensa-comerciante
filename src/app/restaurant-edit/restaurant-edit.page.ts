@@ -77,13 +77,9 @@ export class RestaurantEditPage implements OnInit {
                     res => {
                         this.restaurant = res;
 
-
-
                         if ( !!res.hours[1] ) {
                             this.hasAlternativeHours = true;
                         }
-
-                        console.log(this.hasAlternativeHours);
 
                         this.form.patchValue({
                             title: res.title,
@@ -127,13 +123,9 @@ export class RestaurantEditPage implements OnInit {
     toggleAlternateHours() {
         if ( this.hasAlternativeHours ) {
             this.hasAlternativeHours = false;
-            // return false;
         } else {
             this.hasAlternativeHours = true;
-            // return true;
         }
-
-        console.log(this.hasAlternativeHours)
     }
 
     onSubmit() {
