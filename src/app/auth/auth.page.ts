@@ -6,11 +6,11 @@ import { AuthService } from '../services/auth.service';
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.page.html',
+    styleUrls: ['auth.page.sass']
 })
 export class AuthPage implements OnInit {
 
-    loginForm: FormGroup;
-    signUpForm: FormGroup;
+    form: FormGroup;
     icon = 'eye';
     authMode = 'login';
     authMode02 = 'criar conta';
@@ -23,25 +23,10 @@ export class AuthPage implements OnInit {
 
     ngOnInit() {
 
-        this.loginForm = new FormGroup({
-
-            email: new FormControl(null, {
-                updateOn: 'change',
-                validators: [Validators.required, Validators.email]
-            }),
-
-            password: new FormControl(null, {
-                updateOn: 'change',
-                validators: [Validators.required, Validators.minLength(8)]
-            })
-
-        });
-
-        this.signUpForm = new FormGroup({
+        this.form = new FormGroup({
 
             name: new FormControl(null, {
                 updateOn: 'change',
-                validators: [Validators.required, Validators.minLength(3)]
             }),
 
             email: new FormControl(null, {
@@ -91,19 +76,25 @@ export class AuthPage implements OnInit {
     }
 
 
-    onLogin() {
-        this.authService.loginWithEmail(
-            this.loginForm.value.email,
-            this.loginForm.value.password
-        );
-    }
+    onSubmit() {
 
-    onSignUp() {
-        this.authService.createUser(
-            this.signUpForm.value.name,
-            this.signUpForm.value.email,
-            this.signUpForm.value.password
-        );
+        if (this.authMode === 'login') {
+
+            this.authService.loginWithEmail(
+                this.form.value.email,
+                this.form.value.password
+            );
+
+        } else {
+
+            this.authService.createUser(
+                this.form.value.name,
+                this.form.value.email,
+                this.form.value.password
+            );
+
+        }
+
     }
 
 }
