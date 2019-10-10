@@ -18,7 +18,7 @@ export class VouchersPage implements OnInit {
     private users: User[] = [];
     private products: Product[] = [];
 
-    restaurantId =  this.authService.getUserId();
+    private restaurantId =  this.authService.getUserId();
 
     constructor(
         private authService: AuthService,
@@ -32,7 +32,7 @@ export class VouchersPage implements OnInit {
             this.vouchers = vouchers;
 
             for (const v of vouchers) {
-                this.productService.getProduct(v.productId).subscribe(product => {
+                this.productService.getProduct(this.restaurantId, v.productId).subscribe(product => {
                     this.products.push(product);
                 });
 
@@ -45,9 +45,15 @@ export class VouchersPage implements OnInit {
     }
 
     onValidateVoucher(voucherId: string) {
-        this.productService.validateVoucher(voucherId).then(res => {
-            console.log(res)
-        })
+        this.productService
+                .validateVoucher(voucherId)
+                .then( () => {
+                    console.log('Voucher validated successfully!');
+                })
+                .catch(err => {
+                    console.log('Voucher validation error!');
+                    console.log(err);
+                });
     }
 
 }

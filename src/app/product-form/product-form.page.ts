@@ -73,6 +73,7 @@ export class ProductFormPage implements OnInit {
 
     ionViewWillEnter() {
         setTimeout( () => {
+            this.form.patchValue({startDate: this.today});
             this.form.patchValue({endDate: this.today});
         }, 1000);
 
@@ -80,7 +81,7 @@ export class ProductFormPage implements OnInit {
         this.restaurantId = this.authService.getUserId();
 
         this.productService
-                .getProduct(this.productId)
+                .getProduct(this.restaurantId, this.productId)
                 .pipe(take(1))
                 .subscribe(
                     res => {
@@ -95,8 +96,6 @@ export class ProductFormPage implements OnInit {
                         });
                     });
     }
-
-
 
     onStartDateChange() {
         const startDate = new Date(this.form.value.startDate).toISOString().substring(0, 10);
@@ -125,19 +124,24 @@ export class ProductFormPage implements OnInit {
         if ( this.productId != null ) {
 
             this.productService
-                    .updateProduct(this.productId, productData)
+                    .updateProduct(this.restaurantId, this.productId, productData)
                     .then( () => {
                         this.isLoading = false;
                         this.uiManager.navigateTo('/restaurante');
-                    });
+                    })
+                    .catch( err => console.log(err) );
 
         } else {
 
             this.productService
-                    .addProduct(productData)
+                    .addProduct(this.restaurantId, productData)
                     .then( () => {
                         this.isLoading = false;
                         this.uiManager.navigateTo('/restaurante');
+                    })
+                    .catch( err => {
+                        this.isLoading = false;
+                        console.log(err);
                     });
 
         }

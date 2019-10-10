@@ -26,13 +26,15 @@
             <ion-img class="profile-image" [src]="restaurant.image"></ion-img>
         </ion-col>
 
-        <ion-col size-md="6" offset-md="3" class="ion-padding">
+        <ion-col size-md="6" offset-md="3" class="ion-padding ion-text-center ion-margin">
 
-            <ion-button routerLink="/cadastrar-produto" expand="block">Cadastrar Produto</ion-button>
-
-            <ion-label class="ion-text-center ion-margin" *ngIf="!products || products.length == 0">
+            <ion-label *ngIf="!products || products.length == 0">
                 Não há produtos cadastrados
             </ion-label>
+
+            <ion-button routerLink="/cadastrar-produto" expand="block">
+                Cadastrar Produto
+            </ion-button>
 
         </ion-col>
     </ion-row>

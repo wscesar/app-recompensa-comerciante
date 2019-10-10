@@ -42,6 +42,7 @@ export class ProductService {
 
     getProducts(restaurantId: string) {
         return this.firebase
+                    // .collection('restaurants/' + restaurantId + '/products')
                     .collection('products', ref => ref.where('restaurantId', '==', restaurantId))
                     .snapshotChanges()
                     .pipe (
@@ -56,9 +57,10 @@ export class ProductService {
     }
 
 
-    getProduct(productId: string) {
+    getProduct(restaurantId: string, productId: string) {
         return this.firebase
                     .doc<Product>('products/' + productId)
+                    // .doc<Product>('restaurants/' + restaurantId + '/products/' + productId)
                     .snapshotChanges()
                     .pipe (
                         map ( doc => {
@@ -70,9 +72,11 @@ export class ProductService {
     }
 
 
-    addProduct(product: Product) {
-        return this.firebase.collection('products').add({...product});
-        // return this.firebase.collection('restaurants/' + '/products').add({...product});
+    addProduct(restaurantId: string, product: Product) {
+        return this.firebase
+                        // .collection('products')
+                        .collection('restaurants/' + restaurantId + '/products')
+                        .add({...product});
     }
 
 
@@ -81,10 +85,12 @@ export class ProductService {
     }
 
 
-    updateProduct(productId: string, product: Product) {
+    updateProduct(restaurantId: string, productId: string, product: Product) {
         return this.firebase
-                    .doc('/products/' + productId)
+                    // .doc('/products/' + productId)
+                    .doc('restaurants/' + restaurantId + '/products/' + productId)
                     .update({...product});
+                    // .set({...product});
     }
 
 
@@ -93,13 +99,5 @@ export class ProductService {
                     .doc('/products/' + productId)
                     .delete();
     }
-
-
-    // updatePromo(productId: string, product: Product) {
-    //     return this.firebase
-    //                 .doc('/products/' + productId + 'promo')
-    //                 .update({...product});
-    // }
-
 
 }
