@@ -1,4 +1,4 @@
-# Sistema de Fidelidade para Restaurantes
+# Sistema de Fidelidade
 
 ## App Lojista
 App para cadastro de promoções que podem ser vizualizadas pelo [app do consumidor](https://github.com/wscesar/cardapio-digital-consumidor)
