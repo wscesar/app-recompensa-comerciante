@@ -47,10 +47,10 @@ export class ProductFormPage implements OnInit {
                 validators: [Validators.required]
             }),
 
-            image: new FormControl(null, {
-                updateOn: 'change',
-                validators: [Validators.required]
-            }),
+            // image: new FormControl(null, {
+            //     updateOn: 'change',
+            //     validators: [Validators.required]
+            // }),
 
             price: new FormControl(null, {
                 updateOn: 'change',
@@ -89,7 +89,7 @@ export class ProductFormPage implements OnInit {
                         this.image = res.image;
                         this.form.patchValue({
                             product: res.title,
-                            image: res.image,
+                            // image: res.image,
                             price: res.price,
                             startDate: res.startDate,
                             endDate: res.endDate
@@ -151,7 +151,7 @@ export class ProductFormPage implements OnInit {
     uploadFile(event) {
         this.isLoading = true;
         const file = event.target.files[0];
-        const filePath = 'products/' + this.productId;
+        const filePath = 'products/' + this.productId; // + new Date().toISOString;
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, file);
 

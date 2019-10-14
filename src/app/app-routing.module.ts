@@ -46,15 +46,18 @@ const routes: Routes = [
 
         ]
     },
-  { path: 'comprovantes', loadChildren: './vouchers/vouchers.module#VouchersPageModule' },
+    { path: 'consumidores', loadChildren: './user-list/user-list.module#UserListPageModule' },
+    { path: 'comprovantes', loadChildren: './voucher-list/voucher-list.module#VoucherListPageModule' },
+    { path: 'gerar-comprovante/:userId', loadChildren: './user-set-score/user-set-score.module#UserSetScorePageModule' },
+
 
 
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    ],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

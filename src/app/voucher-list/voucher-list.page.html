@@ -1,7 +1,21 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>vouchers</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>vouchers</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+        
+    </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="vouchers && vouchers.length > 0">

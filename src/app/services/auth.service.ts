@@ -10,7 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
 
-    private userId: string = '7xI2jxeMMOS8Gr0qTexcICpxZS92';
+    private userId = '7xI2jxeMMOS8Gr0qTexcICpxZS92';
 
     constructor(
         private firebase: AngularFirestore,
@@ -30,7 +30,6 @@ export class AuthService {
         this.firebaseAuth.auth
                 .signInWithPopup(new auth.GoogleAuthProvider())
                 .then( res => {
-                    console.log(res);
                     this.userId = res.user.uid;
                     this.uiManager.navigateTo('/restaurante/' + this.userId);
                 })
@@ -43,10 +42,8 @@ export class AuthService {
         this.firebaseAuth.auth
                 .signInWithPopup(new auth.FacebookAuthProvider())
                 .then( res => {
-                    console.log(res);
                     this.userId = res.user.uid;
                     this.uiManager.navigateTo('/restaurante/' + this.userId);
-
                 })
                 .catch(err => {
                     console.log(err);

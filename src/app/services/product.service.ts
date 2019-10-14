@@ -24,14 +24,24 @@ export class ProductService {
                     .update({validate: true});
     }
 
+    addVoucher(restaurantId: string, userId: string, voucher: any) {
+        return this.firebase
+                        .collection('restaurants/' + restaurantId + '/vouchers')
+                        .add({...voucher});
+    }
+
     getVouchers(restaurantId: string) {
         return this.firebase
-                    .collection('vouchers', ref => ref.where('restaurantId', '==', restaurantId))
+                    .collection(
+                        'vouchers',
+                        ref => ref
+                                .where('restaurantId', '==', restaurantId)
+                                .where('restaurantId', '==', restaurantId)
+                    )
                     .snapshotChanges()
                     .pipe (
                         map ( ( docArray: DocumentChangeAction<any>[] ) => {
                             return docArray.map( ( doc: DocumentChangeAction<any> ) => {
-                                // return doc.payload.doc.data();
                                 const data: Voucher = doc.payload.doc.data();
                                 const id = doc.payload.doc.id;
                                 return {...data, id};
@@ -42,8 +52,7 @@ export class ProductService {
 
     getProducts(restaurantId: string) {
         return this.firebase
-                    // .collection('restaurants/' + restaurantId + '/products')
-                    .collection('products', ref => ref.where('restaurantId', '==', restaurantId))
+                    .collection('restaurants/' + restaurantId + '/products')
                     .snapshotChanges()
                     .pipe (
                         map ( ( docArray: DocumentChangeAction<any>[] ) => {
@@ -59,8 +68,7 @@ export class ProductService {
 
     getProduct(restaurantId: string, productId: string) {
         return this.firebase
-                    .doc<Product>('products/' + productId)
-                    // .doc<Product>('restaurants/' + restaurantId + '/products/' + productId)
+                    .doc<Product>('restaurants/' + restaurantId + '/products/' + productId)
                     .snapshotChanges()
                     .pipe (
                         map ( doc => {
@@ -87,16 +95,14 @@ export class ProductService {
 
     updateProduct(restaurantId: string, productId: string, product: Product) {
         return this.firebase
-                    // .doc('/products/' + productId)
                     .doc('restaurants/' + restaurantId + '/products/' + productId)
                     .update({...product});
-                    // .set({...product});
     }
 
 
-    deleteProduct(productId: string) {
+    deleteProduct(restaurantId: string, productId: string) {
         return this.firebase
-                    .doc('/products/' + productId)
+                    .doc('restaurants/' + restaurantId + '/products/' + productId)
                     .delete();
     }
 

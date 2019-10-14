@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 
 // import { AuthService } from './auth.service';
 // import { User } from '../model/user.model';
@@ -27,15 +27,47 @@ export class UserService {
 
     getUser(userId: string) {
         return this.firebase
-                    .doc<User>('users/' + userId)
-                    .snapshotChanges()
-                    .pipe (
-                        map ( doc => {
-                            const data = doc.payload.data();
-                            const id = doc.payload.id;
-                            return { ...data, id  };
-                        })
-                    );
+            .doc<User>('users/' + userId)
+            .snapshotChanges()
+            .pipe (
+                map ( doc => {
+                    const data = doc.payload.data();
+                    const id = doc.payload.id;
+                    return { ...data, id  };
+                })
+            );
+    }
+
+    getUsers() {
+        return this.firebase
+            .collection('users')
+            .snapshotChanges()
+            .pipe (
+                map ( ( docArray: DocumentChangeAction<any>[] ) => {
+                    return docArray.map( ( doc: DocumentChangeAction<any> ) => {
+                        const data: User = doc.payload.doc.data();
+                        const id = doc.payload.doc.id;
+                        return {...data, id};
+                    });
+                }),
+            );
+    }
+
+    addUserScore(restaurantId: string, userId: string, score: any) {
+        return this.firebase
+            .doc('users/' + userId + '/score/' + restaurantId)
+            .set({...score});
+    }
+
+    getUserScore(restaurantId: string, userId: string) {
+        return this.firebase
+            .doc<{score: number}>('users/' + userId + '/score/' + restaurantId)
+            .snapshotChanges()
+            .pipe (
+                map ( doc => {
+                    return doc.payload.data();
+                })
+            );
     }
 
 }

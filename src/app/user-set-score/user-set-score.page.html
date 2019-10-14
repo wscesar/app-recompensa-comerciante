@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar>
+        
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Gerar Pontos</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center" *ngIf="isLoading">
+    <ion-spinner color="primary"></ion-spinner>
+</ion-content>
+    
+<ion-content class="ion-padding" *ngIf="!isLoading && user">
+    <ion-row>
+        <ion-col size-md="6" offset-md="3">
+
+            <form [formGroup]="form" (submit)="onSubmit()">
+
+                <ion-item class="ion-margin-bottom">
+                    <ion-label>Consumidor: {{user.name}}</ion-label>
+                </ion-item>
+
+                <ion-item class="ion-margin-bottom">
+                    <ion-label>E-Mail: {{user.email}}</ion-label>
+                </ion-item>
+
+                <ion-item class="ion-margin-bottom">
+                    <ion-label>Pontuação Atual: {{currentScore}}</ion-label>
+                </ion-item>
+                
+                <ion-item class="ion-margin-bottom">
+                    <ion-label position="floating">Pontos</ion-label>
+                    <ion-input type="number" formControlName="score"></ion-input>
+                </ion-item>
+            
+                <ion-button type="submit" expand="block">Salvar</ion-button>
+        
+            </form>
+        </ion-col>
+    </ion-row> 
+</ion-content>

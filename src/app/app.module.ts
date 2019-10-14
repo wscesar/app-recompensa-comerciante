@@ -17,12 +17,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 
+
 @NgModule({
-  
+
     declarations: [AppComponent],
-    
+
     entryComponents: [],
-    
+
     imports: [
         BrowserModule,
         HttpClientModule,
@@ -34,16 +35,16 @@ import { HttpClientModule } from '@angular/common/http';
         AngularFireStorageModule // imports firebase/storage only needed for storage features
 
     ],
-    
+
     providers: [
         StatusBar,
         SplashScreen,
-        { 
+        {
             provide: RouteReuseStrategy,
             useClass: IonicRouteStrategy
         }
     ],
-    
+
     bootstrap: [AppComponent]
 })
 export class AppModule {}

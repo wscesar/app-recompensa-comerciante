@@ -7,10 +7,9 @@ import { UserService, User } from '../services/user.service';
 
 @Component({
   selector: 'app-vouchers',
-  templateUrl: './vouchers.page.html',
-  styleUrls: ['./vouchers.page.scss'],
+  templateUrl: './voucher-list.page.html',
 })
-export class VouchersPage implements OnInit {
+export class VoucherListPage implements OnInit {
 
     private vouchers: Voucher[];
     private isLoading = true;

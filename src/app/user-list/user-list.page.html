@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/produtos"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Consumidores</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="users">
+        <ion-item
+            *ngFor="let user of users"
+            [routerLink]="['/gerar-comprovante', user.id]"
+            >
+           <ion-label>
+               <h2>{{user.email}}</h2>
+               <p>{{user.name}}</p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

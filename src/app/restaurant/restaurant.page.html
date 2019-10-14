@@ -32,7 +32,11 @@
                 Não há produtos cadastrados
             </ion-label>
 
-            <ion-button routerLink="/cadastrar-produto" expand="block">
+            <ion-button routerLink="/restaurante/editar" expand="block" >
+                Editar Informações
+            </ion-button>
+
+            <ion-button routerLink="/cadastrar-produto" expand="block" color="success">
                 Cadastrar Produto
             </ion-button>
 
@@ -53,7 +57,9 @@
             
                         <ion-label>
                             <h2>{{ product.title }}</h2>
-                            <p>{{ product.price | currency: 'BRL' }}</p>
+                            <p>Pontos necessários: {{product.price}}</p>
+                            <!-- <p>Disponivel de: {{product.startDate}}</p> -->
+                            <!-- <p>{{ product.price | currency: 'BRL' }}</p> -->
                         </ion-label>
                     </ion-item>
 
