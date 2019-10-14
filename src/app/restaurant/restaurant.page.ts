@@ -5,6 +5,7 @@ import { RestaurantService } from '../services/restaurant.service';
 import { ProductService } from '../services/product.service';
 import { AuthService } from '../services/auth.service';
 import { UiManagerService } from '../services/ui-manager.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
     selector: 'app-restaurant',
@@ -20,7 +21,7 @@ export class RestaurantPage implements OnInit {
     private showProduct = true;
 
     constructor(
-        private uiManager: UiManagerService,
+        private alertCtrl: AlertController,
         private authService: AuthService,
         private productService: ProductService,
         private restaurantService: RestaurantService
@@ -44,7 +45,24 @@ export class RestaurantPage implements OnInit {
     }
 
     onDeleteProduct(productId: string) {
-        this.productService.deleteProduct(productId);
+        this.alertCtrl.create({
+            header: 'Apagar Produto',
+            message: 'Essa operação não pode ser desfeita',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                },
+                {
+                    text: 'Ok',
+                    handler: () => {
+                        this.productService.deleteProduct(this.restaurantId, productId);
+                    }
+                },
+            ]
+        }).then(alertEl => {
+            alertEl.present();
+        });
     }
 
 }
