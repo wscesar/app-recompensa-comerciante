@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar>
+        
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/restaurante"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Gerar QR Code</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <form [formGroup]="form" (submit)="encodedText()">
+        <ion-item>
+            <ion-label>Pontos</ion-label>
+            <ion-input type="number" formControlName="score"></ion-input>
+        </ion-item>
+        
+        <ion-button type="submit">Gerar QR Code</ion-button>
+    </form>
+
+</ion-content>

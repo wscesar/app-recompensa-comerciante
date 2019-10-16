@@ -1,6 +1,6 @@
 {
-  "appId": "com.customer.fidelity.app",
-  "appName": "fidelity-app",
+  "appId": "io.ionic.starter",
+  "appName": "qrCodeDemo",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www"

@@ -39,20 +39,19 @@ export class VoucherListPage implements OnInit {
                     this.users.push(user);
                 });
             }
-
         });
     }
 
     onValidateVoucher(voucherId: string) {
         this.productService
-                .validateVoucher(voucherId)
-                .then( () => {
-                    console.log('Voucher validated successfully!');
-                })
-                .catch(err => {
-                    console.log('Voucher validation error!');
-                    console.log(err);
-                });
+            .validateVoucher(voucherId)
+            .then( () => {
+                console.log('Voucher validated successfully!');
+            })
+            .catch(err => {
+                console.log('Voucher validation error!');
+                console.log(err);
+            });
     }
 
 }

@@ -15,12 +15,14 @@
     </ion-header>
   
 <ion-content>
-
+    
+    
     <div *ngIf="isLoading" class="ion-padding ion-text-center">
         <ion-spinner color="primary"></ion-spinner>
     </div>
-
+    
     <ion-row *ngIf="!isLoading" class="ion-margin-top">
+        
 
         <ion-col size="6" offset="3" size-md="2" offset-md="5" *ngIf="restaurant"  >
             <ion-img class="profile-image" [src]="restaurant.image"></ion-img>
@@ -78,9 +80,16 @@
                 
             </ion-virtual-scroll>
 
+            
         </ion-col>
-
+        
     </ion-row>  
+    
+    <ion-fab style="position: absolute; right: 15px; bottom: 15px">
+        <ion-fab-button routerLink="/cadastrar-produto" expand="block" color="primary">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
       
 </ion-content>
   
