@@ -5,7 +5,7 @@ import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
     {
         path: '',
-        loadChildren: './qrcode-generator/qrcode-generator.module#QrcodeGeneratorPageModule'
+        loadChildren: './qrcode-generator/qrcode-generator.module#QRCodeGeneratorPageModule'
         // loadChildren: './restaurant/restaurant.module#RestaurantPageModule'
         // loadChildren: './auth/auth.module#AuthPageModule'
     },
@@ -54,7 +54,7 @@ const routes: Routes = [
     { path: 'consumidores', loadChildren: './user-list/user-list.module#UserListPageModule' },
     { path: 'comprovantes', loadChildren: './voucher-list/voucher-list.module#VoucherListPageModule' },
     { path: 'gerar-comprovante/:userId', loadChildren: './user-set-score/user-set-score.module#UserSetScorePageModule' },
-    { path: 'qrcode-generator', loadChildren: './qrcode-generator/qrcode-generator.module#QrcodeGeneratorPageModule' },
+    { path: 'qrcode-generator', loadChildren: './qrcode-generator/qrcode-generator.module#QRCodeGeneratorPageModule' },
 
 
 

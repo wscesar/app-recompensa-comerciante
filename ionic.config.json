@@ -1,5 +1,5 @@
 {
-  "name": "qrCodeDemo",
+  "name": "app-lojista",
   "integrations": {
     "cordova": {},
     "capacitor": {}

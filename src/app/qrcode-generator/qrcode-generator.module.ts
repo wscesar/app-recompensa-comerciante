@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { QrcodeGeneratorPage } from './qrcode-generator.page';
+import { QRCodeGeneratorPage } from './qrcode-generator.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: QrcodeGeneratorPage
+    component: QRCodeGeneratorPage
   }
 ];
 
@@ -22,6 +22,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [QrcodeGeneratorPage]
+  declarations: [QRCodeGeneratorPage]
 })
-export class QrcodeGeneratorPageModule {}
+export class QRCodeGeneratorPageModule {}

@@ -10,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   selector: 'app-qrcode-generator',
   templateUrl: './qrcode-generator.page.html',
 })
-export class QrcodeGeneratorPage implements OnInit {
+export class QRCodeGeneratorPage implements OnInit {
 
     form: FormGroup;
     encodeData: any;

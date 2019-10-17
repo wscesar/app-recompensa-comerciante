@@ -32,12 +32,7 @@ export class ProductService {
 
     getVouchers(restaurantId: string) {
         return this.firebase
-                    .collection(
-                        'vouchers',
-                        ref => ref
-                                .where('restaurantId', '==', restaurantId)
-                                .where('restaurantId', '==', restaurantId)
-                    )
+                    .collection('restaurants/' + restaurantId + '/vouchers')
                     .snapshotChanges()
                     .pipe (
                         map ( ( docArray: DocumentChangeAction<any>[] ) => {

@@ -1,7 +1,10 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "qrCodeDemo",
+  "appId": "io.ionic.starter.app.lojista",
+  "appName": "app-lojista",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "http://localhost:8101"
+  }
 }
