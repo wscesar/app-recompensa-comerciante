@@ -9,6 +9,10 @@ export class RestaurantService {
 
     constructor(private db: AngularFirestore) {}
 
+    addGeneratedCode(uniqueId: string) {
+        return this.db.collection('genetated-codes').add(uniqueId);
+    }
+
     updateRestaurant(restaurantId: string, restaurant: object) {
         return this.db.collection('restaurants').doc(restaurantId).update({...restaurant});
     }
